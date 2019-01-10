@@ -1,10 +1,13 @@
+using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Models;
 
 namespace WebChat
 {
@@ -27,6 +30,13 @@ namespace WebChat
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddDbContext<ChatAppDbContext>(options =>
+                    options.UseSqlServer(
+                        this.Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDefaultIdentity<AppUser>()
+                .AddEntityFrameworkStores<ChatAppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
