@@ -11,11 +11,18 @@ export default class Register extends React.Component {
                 password: '',
                 confirmPassword: '',
                 email: ''
-            }
+            },
+            redirect: false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to='/login' />
+        }
     }
 
     handleChange(event) {
@@ -46,8 +53,10 @@ export default class Register extends React.Component {
             data: data,
             success: function (result) {
                 alert(result);
-                document.getElementById("login").click();
-            },
+                this.setState({
+                    redirect: true
+                })
+            }.bind(this),
             error: function (result) {
                 alert('Error')
             }
@@ -57,6 +66,7 @@ export default class Register extends React.Component {
     render() {
         return (
             <div>
+                {this.renderRedirect()}
                 <h1 className='text-center mb-5'>Register</h1>
 
                 <form onSubmit={this.handleSubmit} className='mx-auto w-50'>
