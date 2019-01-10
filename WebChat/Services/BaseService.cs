@@ -7,9 +7,11 @@ namespace Services
 {
     public abstract class BaseService
     {
-        protected BaseService(ChatAppDbContext)
-        {
+        private readonly ChatAppDbContext db;
 
+        protected BaseService(ChatAppDbContext db)
+        {
+            this.db = db;
         }
     }
 }

@@ -40,7 +40,7 @@ export default class Register extends React.Component {
         });
 
         $.ajax({
-            url: '/api/accounts',
+            url: '/api/accounts/register',  
             type: 'post',
             contentType: 'application/json',
             data: data,

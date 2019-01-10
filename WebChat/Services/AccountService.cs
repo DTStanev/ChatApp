@@ -17,7 +17,7 @@ namespace Services
             this.userManager = userManager;
         }
 
-        public async Task<IdentityResult> Registeruser(RegisterInputViewModel model)
+        public async Task<IdentityResult> RegisterUser(RegisterInputViewModel model)
         {
             var user = new AppUser { UserName = model.Username, Email = model.Email, NormalizedEmail = model.Username };
 

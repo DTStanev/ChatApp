@@ -6,6 +6,6 @@ namespace Services.interfaces
 {
     public interface IAccountService
     {
-        Task<IdentityResult> Registeruser(RegisterInputViewModel model);
+        Task<IdentityResult> RegisterUser(RegisterInputViewModel model);
     }
 }

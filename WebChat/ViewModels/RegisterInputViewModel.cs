@@ -5,9 +5,7 @@ namespace ViewModels
 {
     public class RegisterInputViewModel
     {
-        [Required]
-        [StringLength(30, MinimumLength = 4)]
-        [RegularExpression(ViewModelConstants.UsernameValidationRegex)]
+        [Required]    
         public string Username { get; set; }
 
         [Required]
@@ -17,7 +15,6 @@ namespace ViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [RegularExpression(ViewModelConstants.EmailValidationRegex)]
         public string Email { get; set; }
     }
 }
