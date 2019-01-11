@@ -1,5 +1,5 @@
 ﻿import React from 'react'
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import $ from 'jquery';
 
 export default class Register extends React.Component {
@@ -87,7 +87,7 @@ export default class Register extends React.Component {
                         <input required type="email" name='email' value={this.state.user.email} onChange={this.handleChange} className='form-control mb-3' placeholder='Email...' />
                     </div>
                     <div className='mt-4 d-flex justify-content-around'>
-                        <input type="submit" value="Register" className='btn btn-primary' />
+                        <input type="submit" value="Register" className='btn btn-primary mr-5' />
 
                         <div>If you have an account please <Link to='/login' id='login' className='btn btn-outline-success  ' >Login</Link></div>
 
