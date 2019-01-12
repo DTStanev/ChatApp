@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.interfaces;
-using ViewModels;
+using ViewModels.Accounts;
 
 namespace WebChat.Controllers.Accounts
 {
@@ -35,22 +35,36 @@ namespace WebChat.Controllers.Accounts
         }
 
         // POST: api/Accounts
-        [HttpPost]     
+        [HttpPost]
         [Route("Register")]
         public async Task<string> RegisterPost([FromBody] RegisterInputViewModel model)
         {
-            //TODO:Validation
-            
-                var result = await this.accountService.RegisterUser(model);
 
-                if (result.Succeeded)
-                {
-                    return "success";
-                }
+            var result = await this.accountService.RegisterUser(model);
+
+            if (result.Succeeded)
+            {
+                return "success";
+            }
 
             return "Registration Failed!";
+        }
 
+        public async Task<IActionResult> LoginPost([FromBody] LoginInputViewModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
+            {
 
+            }
+
+            var user = await this.accountService.Authenticate(model.Username, model.Password);
+
+            if (user == null)
+            {
+                return BadRequest(new { message = "Username ot password is incorect" });
+            }
+
+            return Ok(user);
         }
 
         // PUT: api/Accounts/5
