@@ -4,7 +4,7 @@
 }
 
 #sidebar {
-    width: 8%;
+   width: 100px;
     position: fixed;
     top: 0;
     left: 0;
@@ -12,6 +12,7 @@
     z-index: 0;
     background: #7386D5;
     color: #fff;
+    transition: all 0.3s;
    
 }
 

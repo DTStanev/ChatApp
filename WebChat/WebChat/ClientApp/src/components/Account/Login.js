@@ -12,12 +12,12 @@ export default class Login extends Component {
                 password: ''
             },
             redirect: false
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        };     
+
+        this.saveItem = this.saveItem.bind(this);
     };
 
-    handleChange(event) {
+    handleChange = (event) => {
         let user = this.state.user;
 
         let name = event.target.name;
@@ -27,13 +27,38 @@ export default class Login extends Component {
         this.setState({ user })
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        console.log(this.state.user)
-        this.setState({ redirect: true });
-        //TODO:....
-
+    saveItem(itemName, selectedValue) {
+        try {
+        localStorage.setItem(itemName, JSON.stringify(selectedValue));            
+        } catch (error) {
+            alert('AsyncStorage error: ' + error.message);
+            console.error('AsyncStorage error: ' + error.message);
+        }
     }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+
+        if (!this.state.user.username || !this.state.user.password) return;
+        
+        fetch('api/Accounts/login', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: this.state.user.username,
+                password: this.state.user.password
+            })
+        })
+            .then(response => response.json())
+            .then(responseData => {
+                alert('Login Success!');
+                console.log(responseData);
+               this.saveItem('id_token', responseData.token);                
+            })
+    };
 
     renderRedirect = () => {
         if (this.state.redirect) {

@@ -50,18 +50,20 @@ namespace WebChat.Controllers.Accounts
             return "Registration Failed!";
         }
 
+        [HttpPost]
+        [Route("Login")]
         public async Task<IActionResult> LoginPost([FromBody] LoginInputViewModel model)
         {
             if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
             {
-
+                //TODO logic ...
             }
 
             var user = await this.accountService.Authenticate(model.Username, model.Password);
 
             if (user == null)
             {
-                return BadRequest(new { message = "Username ot password is incorect" });
+                return BadRequest(new { message = "Username or password is incorect" });
             }
 
             return Ok(user);

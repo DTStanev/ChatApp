@@ -20,12 +20,14 @@ namespace Services
     public class AccountService : BaseService, IAccountService
     {
         private readonly UserManager<AppUser> userManager;
+        private readonly SignInManager<AppUser> signInManager;
         private readonly JwtSettings jwtSettings;
 
-        public AccountService(ChatAppDbContext db, UserManager<AppUser> userManager, IOptions<JwtSettings> jwtSettings)
+        public AccountService(ChatAppDbContext db, UserManager<AppUser> userManager, IOptions<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager)
             : base(db)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
             this.jwtSettings = jwtSettings.Value;
         }
 
@@ -40,9 +42,16 @@ namespace Services
 
         public async Task<AppUser> Authenticate(string username, string password)
         {
-            var user = await this.db.Users.SingleOrDefaultAsync(x => x.UserName == username && x.PasswordHash == password);
+            var user = await this.db.Users.SingleOrDefaultAsync(x => x.UserName == username);
 
             if (user == null)
+            {
+                return null;
+            }
+
+            var result = await this.signInManager.CheckPasswordSignInAsync(user, password, false);
+
+            if (!result.Succeeded)
             {
                 return null;
             }
@@ -64,6 +73,7 @@ namespace Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
+            await this.db.SaveChangesAsync();
 
             return user;
 

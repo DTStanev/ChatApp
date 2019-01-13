@@ -16,7 +16,7 @@ export default class Users extends Component {
                     </div>
 
                     <ul className="list-unstyled components">
-                        {users.map(x => <li ><NavLink tag={Link} key={x.id} to={'/'.concat(x.username)} /*data='{user{id:1}}'*/ className='text-light text-line'><span className='tooltiptext'>Click to send private message</span>{x.username}</NavLink> </li>)}
+                        {users.map(x => <li key={x.id} className='text-light text-line'>{x.username}</li>)}
                     </ul>
 
                 </nav>
