@@ -5,7 +5,7 @@ import MessageBox from './MessageBox'
 import './ChatRoom.css'
 
 export  default class ChatRoom extends Component {
-
+    
     SpecificClass = (message) => {
         if (message.username === 'mitaka') {
             return 'ml-auto bg-info'
@@ -37,7 +37,7 @@ export  default class ChatRoom extends Component {
                 <div className='form-group border-top'>
                     {users.map(x => <MessageBox key={x.id} sender={this.Sender(x)} messageContent={x.messageContent} styleName={this.SpecificClass(x)} separator={this.Separator(x)} />)}
                     <SendMessageBox />
-                    <Users users={users} />
+                    <Users  />
                 </div>
             </div>
         )

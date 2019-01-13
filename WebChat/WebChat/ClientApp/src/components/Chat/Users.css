@@ -4,16 +4,15 @@
 }
 
 #sidebar {
-   width: 100px;
+    width: 100px;
     position: fixed;
-    top: 0;
+    top: 56px;
     left: 0;
     height: 100vh;
     z-index: 0;
     background: #7386D5;
     color: #fff;
     transition: all 0.3s;
-   
 }
 
 .text-line {

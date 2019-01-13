@@ -10,5 +10,9 @@ namespace Services.interfaces
         Task<IdentityResult> RegisterUser(RegisterInputViewModel model);
 
         Task<AppUser> Authenticate(string username, string password);
+
+        AppUser GetUserByUsername(string username);
+
+        RegisteredUsersInfoViewModel[] GetRegisteredUsers();
     }
 }

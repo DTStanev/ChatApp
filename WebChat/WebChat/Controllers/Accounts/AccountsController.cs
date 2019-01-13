@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.interfaces;
 using ViewModels.Accounts;
 
 namespace WebChat.Controllers.Accounts
 {
+    //TODO:Auhtorize
     [Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -22,9 +21,12 @@ namespace WebChat.Controllers.Accounts
 
         // GET: api/Accounts
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("GetUsers")]
+        public IEnumerable<RegisteredUsersInfoViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            var users = this.accountService.GetRegisteredUsers();
+
+            return users;
         }
 
         // GET: api/Accounts/5
@@ -35,6 +37,7 @@ namespace WebChat.Controllers.Accounts
         }
 
         // POST: api/Accounts
+        [AllowAnonymous]
         [HttpPost]
         [Route("Register")]
         public async Task<string> RegisterPost([FromBody] RegisterInputViewModel model)
@@ -49,7 +52,7 @@ namespace WebChat.Controllers.Accounts
 
             return "Registration Failed!";
         }
-
+        [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> LoginPost([FromBody] LoginInputViewModel model)

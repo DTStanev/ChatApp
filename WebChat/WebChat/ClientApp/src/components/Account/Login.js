@@ -58,6 +58,7 @@ export default class Login extends Component {
                 console.log(responseData);
                this.saveItem('id_token', responseData.token);                
             })
+            .catch(result => console.log(result));
     };
 
     renderRedirect = () => {

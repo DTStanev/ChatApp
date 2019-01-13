@@ -12,7 +12,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using ViewModels;
 using ViewModels.Accounts;
 
 namespace Services
@@ -36,7 +35,7 @@ namespace Services
             var user = new AppUser { UserName = model.Username, Email = model.Email, NormalizedEmail = model.Username };
 
             var result = await this.userManager.CreateAsync(user, model.Password);
-
+            
             return result;
         }
 
@@ -76,7 +75,23 @@ namespace Services
             await this.db.SaveChangesAsync();
 
             return user;
+        }
 
+        public AppUser GetUserByUsername(string username)
+        {
+            var user = this.db.Users.SingleOrDefault(x => x.UserName == username);
+
+            return user;
+        }
+
+        public RegisteredUsersInfoViewModel[] GetRegisteredUsers()
+        {
+            var users = this.db.Users.Select(x => new RegisteredUsersInfoViewModel {
+                Id = x.Id,
+                Username = x.UserName
+            }).ToArray();
+
+            return users;
         }
     }
 }
