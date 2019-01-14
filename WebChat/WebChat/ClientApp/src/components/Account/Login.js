@@ -64,12 +64,15 @@ export default class Login extends Component {
     };
 
     renderRedirect = () => {
-        if (this.state.redirect) {
+        let userToken = localStorage.getItem('id_token');
+        if (this.state.redirect || userToken) {
             return <Redirect to='/' />
         }
     }
 
     render() {
+       
+
         return (
             <div>
                 {this.renderRedirect()}

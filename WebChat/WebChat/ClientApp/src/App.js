@@ -20,7 +20,7 @@ export default class App extends Component {
                     <Route path='/counter' component={Counter} />
                     <Route path='/fetch-data' component={FetchData} />
                     <Route path='/register' component={Register} />
-                    <Route path='/chat' exact component={ChatRoom} />
+                    <Route path='/chat-room' exact component={ChatRoom} />
                     <Route path='/login' exact component={Login} />
                     <Route path='/profile' exact component={Profile} />
                 </Switch>

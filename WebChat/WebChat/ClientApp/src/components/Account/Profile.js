@@ -1,4 +1,6 @@
 ﻿import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom';
+
 
 export default class Profile extends Component {
     //Simple version of profile just showing personal information 
@@ -32,10 +34,17 @@ export default class Profile extends Component {
             .catch(result => console.log(result));
     }
 
+    renderRedirect = () => {
+        let userToken = localStorage.getItem('id_token');
+        if (!userToken) {
+            return <Redirect to='/login' />
+        }
+    }
 
     render() {
         return (
-            <div>               
+            <div>
+                {this.renderRedirect()}
                 <div className="col-md-6 col-md-offset-3 mt-4">
                     <h2>Profile</h2>
                     <form name="form" onSubmit={this.handleSubmit} className='mt-5'>

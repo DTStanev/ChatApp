@@ -14,15 +14,15 @@ export default class Users extends Component {
     }
 
     componentDidMount() {
-        let token = JSON.parse(localStorage.getItem('id_token'));
-        console.log(token);
+        let token = localStorage.getItem('id_token');
         this.setState({
             token: token
         })
         fetch('api/Accounts/getusers', {
             method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token
+            headers: {                
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
             }
         })
             .then(response => response.json())
@@ -37,7 +37,7 @@ export default class Users extends Component {
 
     render() {
 
-
+       
         return (
             <div className="wrapper">
                 <nav id="sidebar">
