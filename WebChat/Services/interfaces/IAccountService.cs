@@ -14,5 +14,7 @@ namespace Services.interfaces
         AppUser GetUserByUsername(string username);
 
         RegisteredUsersInfoViewModel[] GetRegisteredUsers();
+
+        PersonalDataViewModel GetPersonalData(string username);
     }
 }

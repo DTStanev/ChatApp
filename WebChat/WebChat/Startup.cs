@@ -15,6 +15,8 @@ using Newtonsoft.Json.Serialization;
 using Services;
 using Services.interfaces;
 using System.Text;
+using WebChat.Hubs;
+
 
 namespace WebChat
 {
@@ -57,6 +59,8 @@ namespace WebChat
                 options.Password.RequireLowercase = false;
             });
 
+            services.AddSignalR();
+
             var jwtSettingsSection = Configuration.GetSection("JwtSettings");
 
             services.Configure<JwtSettings>(jwtSettingsSection);
@@ -81,10 +85,10 @@ namespace WebChat
                 };
             });
 
-            //services.AddMvcCore()
-            //    .AddAuthorization() 
-            //    .AddJsonFormatters(options => options.ContractResolver = new CamelCasePropertyNamesContractResolver());
-        }   
+            services.AddMvcCore()
+                .AddAuthorization()
+                .AddJsonFormatters(options => options.ContractResolver = new CamelCasePropertyNamesContractResolver());
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -110,6 +114,12 @@ namespace WebChat
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+
+            app.UseSignalR(
+                routes =>
+                {
+                    routes.MapHub<ChatHub>("/chat");
+                });
 
             app.UseSpa(spa =>
             {

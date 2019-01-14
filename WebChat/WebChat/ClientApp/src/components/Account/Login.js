@@ -29,7 +29,7 @@ export default class Login extends Component {
 
     saveItem(itemName, selectedValue) {
         try {
-        localStorage.setItem(itemName, JSON.stringify(selectedValue));            
+        localStorage.setItem(itemName, selectedValue);            
         } catch (error) {
             alert('AsyncStorage error: ' + error.message);
             console.error('AsyncStorage error: ' + error.message);
@@ -55,8 +55,10 @@ export default class Login extends Component {
             .then(response => response.json())
             .then(responseData => {
                 alert('Login Success!');
-                console.log(responseData);
-               this.saveItem('id_token', responseData.token);                
+                this.setState({
+                    redirect: true
+                })
+                this.saveItem('id_token', responseData.token);                
             })
             .catch(result => console.log(result));
     };

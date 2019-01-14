@@ -61,7 +61,7 @@ namespace Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.UserName.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(
@@ -92,6 +92,19 @@ namespace Services
             }).ToArray();
 
             return users;
+        }
+
+        public PersonalDataViewModel GetPersonalData(string username)
+        {
+            var user = this.db.Users
+                .Where(x => x.UserName == username)
+                .Select(x => new PersonalDataViewModel
+                {
+                    Username = x.UserName,
+                    Email = x.Email
+                }).SingleOrDefault();
+
+            return user;
         }
     }
 }

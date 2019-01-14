@@ -6,8 +6,8 @@ using Services.interfaces;
 using ViewModels.Accounts;
 
 namespace WebChat.Controllers.Accounts
-{
-    //TODO:Auhtorize
+{   
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -21,8 +21,18 @@ namespace WebChat.Controllers.Accounts
 
         // GET: api/Accounts
         [HttpGet]
+        [Route("GetPersonalData")]
+        public PersonalDataViewModel GetUsers()
+        {
+            var name = this.User.Identity.Name;
+            var user = this.accountService.GetPersonalData(name);
+
+            return user;
+        }
+
+        [HttpGet]
         [Route("GetUsers")]
-        public IEnumerable<RegisteredUsersInfoViewModel> Get()
+        public IEnumerable<RegisteredUsersInfoViewModel> GetPersonalData()
         {
             var users = this.accountService.GetRegisteredUsers();
 

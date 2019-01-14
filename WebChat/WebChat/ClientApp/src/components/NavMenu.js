@@ -61,7 +61,7 @@ export class NavMenu extends Component {
                                 <NavLink tag={Link} id='chat-room' className="text-dark" to="/chat">ChatRoom</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark ml-4" to="/register">Register</NavLink>
+                                <NavLink tag={Link} className="text-dark ml-4" to="/login">Login</NavLink>
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>
@@ -69,7 +69,7 @@ export class NavMenu extends Component {
                 </DropdownToggle>
                                 <DropdownMenu right>
                                     <DropdownItem>
-                                        <NavLink tag={Link} className="text-dark" to="/personal-info">Personal Information</NavLink>
+                                        <NavLink tag={Link} className="text-dark" to="/profile">Profile</NavLink>
                                     </DropdownItem>                                    
                                     <DropdownItem divider />
                                     <DropdownItem>

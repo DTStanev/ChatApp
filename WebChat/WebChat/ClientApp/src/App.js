@@ -7,6 +7,7 @@ import { Counter } from './components/Counter';
 import Register from './components/Account/Register';
 import ChatRoom from './components/Chat/ChatRoom';
 import Login from './components/Account/Login';
+import Profile from './components/Account/Profile';
 
 export default class App extends Component {
     static displayName = App.name;
@@ -21,8 +22,7 @@ export default class App extends Component {
                     <Route path='/register' component={Register} />
                     <Route path='/chat' exact component={ChatRoom} />
                     <Route path='/login' exact component={Login} />
-
-
+                    <Route path='/profile' exact component={Profile} />
                 </Switch>
             </Layout>
         );

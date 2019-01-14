@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 using ViewModels.Chat;
 
-namespace BasicChat
+namespace WebChat.Hubs
 {
     [Authorize]
     public class ChatHub : Hub
