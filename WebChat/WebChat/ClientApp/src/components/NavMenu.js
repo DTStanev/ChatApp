@@ -24,8 +24,19 @@ export class NavMenu extends Component {
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.state = {
             collapsed: true,
-            dropdownOpen: false
+            dropdownOpen: false,
+            isAuth: false
         };
+    }
+
+    componentDidMount() {
+        let token = localStorage.getItem('id_token');
+
+        if (token) {
+            this.setState({
+                isAuth: true
+            })
+        }
     }
 
     toggleNavbar() {
@@ -40,7 +51,40 @@ export class NavMenu extends Component {
         });
     }
 
+    logout = () => {
+        localStorage.removeItem('id_token');
+        this.setState({
+            isAuth: false
+        })
+    }
+
     render() {
+
+        let userToken = localStorage.getItem('id_token');
+        let login = userToken ? '' : < NavItem >
+            <NavLink tag={Link} className="text-dark ml-4" to="/login">Login</NavLink>
+        </NavItem>
+
+        let userinfo = userToken ? <UncontrolledDropdown nav inNavbar className='ml-5'>
+            <DropdownToggle nav caret>
+                Wellcome, User
+                </DropdownToggle>
+            <DropdownMenu right>
+                <DropdownItem>
+                    <NavLink tag={Link} className="text-dark" to="/profile">Profile</NavLink>
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem onClick={this.logout}>
+                    Logout
+                  </DropdownItem>
+            </DropdownMenu>
+        </UncontrolledDropdown> : ''
+
+        let chatRoom = userToken ? <NavItem>
+            <NavLink tag={Link} id='chat-room' className="text-dark" to="/chat-room">ChatRoom</NavLink>
+        </NavItem> : ''
+
+
         return (
             <header>
                 <Navbar color="light" light expand="md" className='navbar' >
@@ -56,27 +100,10 @@ export class NavMenu extends Component {
                             </NavItem>
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-                            </NavItem>                           
-                            <NavItem>
-                                <NavLink tag={Link} id='chat-room' className="text-dark" to="/chat-room">ChatRoom</NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark ml-4" to="/login">Login</NavLink>
-                            </NavItem>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Wellcome, User
-                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem>
-                                        <NavLink tag={Link} className="text-dark" to="/profile">Profile</NavLink>
-                                    </DropdownItem>                                    
-                                    <DropdownItem divider />
-                                    <DropdownItem>
-                                        Logout
-                  </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
+                            {chatRoom}
+                            {login}
+                            {userinfo}
                         </Nav>
                     </Collapse>
                 </Navbar>
