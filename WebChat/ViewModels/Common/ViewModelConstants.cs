@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ViewModels.Common
+﻿namespace ViewModels.Common
 {
     public class ViewModelConstants
     {

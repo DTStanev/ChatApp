@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Services.interfaces;
 using System;
 using System.Threading.Tasks;
 using ViewModels.Chat;
@@ -9,6 +10,13 @@ namespace WebChat.Hubs
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ChatHub : Hub
     {
+        private readonly IChatService chatService;
+
+        public ChatHub(IChatService chatService)
+        {
+            this.chatService = chatService;
+        }
+
         public async Task Send(string message)
         {
             var name = Context.User.Identity.Name;
@@ -18,6 +26,8 @@ namespace WebChat.Hubs
                 Sender = name,
                 Content = message,               
             };
+
+            await this.chatService.StoreMessage(newMeesage);
             
             await this.Clients.All.SendAsync("NewMessage", newMeesage);    
         }
@@ -39,7 +49,18 @@ namespace WebChat.Hubs
         {
             string name = Context.User.Identity.Name;
 
-            Groups.AddToGroupAsync(Context.ConnectionId, name);
+            Groups.AddToGroupAsync(Context.ConnectionId, name)
+                .GetAwaiter()
+                .GetResult();
+
+            var historyMessages = this.chatService.GetMessages();
+
+            foreach (var message in historyMessages)
+            {
+                this.Clients.All.SendAsync("NewMessage", message)
+                    .GetAwaiter()
+                    .GetResult();
+            }
 
             return base.OnConnectedAsync();
         }

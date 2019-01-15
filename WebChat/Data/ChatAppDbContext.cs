@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Models.Chat;
 using System;
 
 namespace Data
@@ -9,6 +10,9 @@ namespace Data
     {
         public ChatAppDbContext(DbContextOptions<ChatAppDbContext> options)
             : base(options) { }
+
+        public DbSet<Message> MessagesHistory { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

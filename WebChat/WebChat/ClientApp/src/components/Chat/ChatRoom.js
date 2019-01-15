@@ -66,12 +66,11 @@ export default class ChatRoom extends Component {
             this.addMessage(data)
         });
         
-        function sendMessage(message) {
+        async function sendMessage(message) {
             
-
-            connection.start()
+            await connection.start()
                 .then(() => connection.invoke("Send", message));
-            console.log(7777777777777)
+            console.log(7777777777777)          
         }
 
         //function sendPrivateMessage(message, who) {
@@ -81,7 +80,7 @@ export default class ChatRoom extends Component {
         //}
 
         return (
-            <div>
+            <div className='chat-room'>
                 {this.renderRedirect()}
                 <h5>Global Chat Room</h5>
                 <div className='form-group border-top'>

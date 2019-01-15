@@ -48,6 +48,7 @@ namespace WebChat
                 .AddEntityFrameworkStores<ChatAppDbContext>();
 
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IChatService, ChatService>();
 
             services.Configure<IdentityOptions>(options =>
             {
