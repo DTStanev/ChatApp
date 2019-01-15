@@ -8,12 +8,27 @@ export default class SendMessageBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: ''
+            message: '',
+            element: null
         }
 
         this.handleMessageChange = this.handleMessageChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.sendMessage = this.sendMessage.bind(this)
+    }
+
+    componentDidMount() {
+        this.setState({
+            element: document.getElementById('msg')
+        })
+
+        if (this.state.element) {
+            this.state.element.addEventListener('keydown', function (e) {
+                if (e.keyCode === 13) {
+                    this.sendMessage;
+                }
+            })
+        }
     }
 
     handleMessageChange(event) {
@@ -48,17 +63,6 @@ export default class SendMessageBox extends Component {
     }
 
     render() {
-
-        let element = document.getElementById('msg');
-
-        if (element) {
-            element.addEventListener('keydown', function (e) {
-                if (e.keyCode === 13) {
-                    this.sendMessage;
-                }
-            })
-        }
-
         return (
             <div className='panel-footer mt-3' id='message-holder'>
                 <form className='form-inline' onSubmit={this.onSubmit}>

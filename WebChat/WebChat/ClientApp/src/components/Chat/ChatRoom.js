@@ -13,8 +13,34 @@ export default class ChatRoom extends Component {
 
         this.state = {
             messages: [],
-            currentUser: localStorage.getItem('username')
+            currentUser: localStorage.getItem('username'),
+            disconnected: false,
+            status: 'Connected',
+            hubConnection: null
         }
+    }
+
+    componentDidMount = () => {
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/chat", { accessTokenFactory: () => localStorage.getItem('id_token') })
+            .build();
+
+        this.setState({ hubConnection }, () => {
+            this.state.hubConnection
+                .start()
+                .then(() => console.log('Connection started!'))
+                .catch(err => console.log('Error while establishing connection :('));
+
+            this.state.hubConnection.on('NewMessage', (receivedMessage) => {
+                this.setState(prevState => {
+                    let messages = prevState.messages
+                    messages.push(receivedMessage)
+                    let length = messages.length;
+                    messages[length - 1].focus;
+                    return { messages }
+                })
+            });
+        });
     }
 
     SpecificClass = (message) => {
@@ -52,40 +78,54 @@ export default class ChatRoom extends Component {
             return { messages }
         })
     }
+    //TODO: Make button connect/reconnect after click
+    click = () => {
+        console.log(this.state)
 
-    
-    render() {
-        //ТODO: Need to fix bug with multiple connections ..... and messages
-        let connection = new signalR.HubConnectionBuilder()
-            .withUrl("/chat", { accessTokenFactory: () => localStorage.getItem('id_token') })
-            .build();
+        this.setState(prevState => ({
+            disconnected: !prevState.disconnected,
+        }), () => {
+            this.setState({
+                status: this.state.disconnected ? 'Discconected' : 'Connected'
+            }, () => {
+                if (this.state.disconnected) {
+                    this.state.hubConnection.stop()
+                }
+                else {
+                    this.state.hubConnection
+                        .start()
+                        .then(() => console.log('Connection started!'))
+                        .catch(err => console.log('Error while establishing connection :('));
 
-        connection.on("NewMessage", data => {
-            console.log(data);
-
-            this.addMessage(data)
+                    this.setState({
+                        messages:[]
+                    })
+                }
+            })
         });
-        
-        async function sendMessage(message) {
-            
-            await connection.start()
-                .then(() => connection.invoke("Send", message));
-            console.log(7777777777777)          
-        }
 
-        //function sendPrivateMessage(message, who) {
-        //    connection.start()
-        //        .then(() => connection.invoke("SendChatMessage", who, message));
-        //    console.log(7777777777777)
-        //}
+    }
+
+    sendMessage = (message) => {
+        this.state.hubConnection
+            .invoke('Send', message)
+            .catch(err => console.error(err));
+    };
+
+
+    render() {
+        let buttonClass = this.state.disconnected ? 'btn btn-danger' : 'btn btn-success'
 
         return (
             <div className='chat-room'>
                 {this.renderRedirect()}
-                <h5>Global Chat Room</h5>
+                <div className='mb-3'>
+                    <h5 className='w-25'>Global Chat Room</h5>
+                    <button className={buttonClass} onClick={this.click}>{this.state.status}</button>
+                </div>
                 <div className='form-group border-top'>
                     {this.state.messages.map(x => <MessageBox key={x.Id} styleName={this.SpecificClass(x)} sender={this.Sender(x)} messageContent={x.content} separator={this.Separator(x)} />)}
-                    <SendMessageBox SendMessage={sendMessage} />
+                    <SendMessageBox SendMessage={this.sendMessage} />
                     <Users />
                 </div>
             </div>
