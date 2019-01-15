@@ -58,7 +58,8 @@ export default class Login extends Component {
                 this.setState({
                     redirect: true
                 })
-                this.saveItem('id_token', responseData.token);                
+                this.saveItem('id_token', responseData.token);
+                this.saveItem('username', responseData.userName);                
             })
             .catch(result => console.log(result));
     };

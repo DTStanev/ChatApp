@@ -53,6 +53,8 @@ export class NavMenu extends Component {
 
     logout = () => {
         localStorage.removeItem('id_token');
+        localStorage.removeItem('username');
+
         this.setState({
             isAuth: false
         })

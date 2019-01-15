@@ -9,5 +9,7 @@ namespace ViewModels.Chat
         public string Sender { get; set; }
 
         public string Content { get; set; }
+
+        public int Id { get; set; }
     }
 }

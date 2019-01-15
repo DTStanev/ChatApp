@@ -4,6 +4,13 @@
   word-break: break-all;
 }
 
+.navbar {
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0px; /* Position the navbar at the top of the page */
+    width: 100%;
+    z-index: 1
+}
+
 html {
   font-size: 14px;
 }

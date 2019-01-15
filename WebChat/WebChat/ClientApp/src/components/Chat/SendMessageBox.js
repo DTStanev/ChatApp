@@ -17,8 +17,10 @@ export default class SendMessageBox extends Component {
     }
 
     handleMessageChange(event) {
-       
+
         let value = event.target.value;
+
+        if (value.length < 1) { return }
 
         this.setState({
             message: value
@@ -27,7 +29,10 @@ export default class SendMessageBox extends Component {
 
     onSubmit(event) {
         event.preventDefault();
-        console.log(this.state.message);
+        if (this.state.message.length < 1) {
+            return
+        }
+        this.props.SendMessage(this.state.message)
         this.setState({
             message: ''
         });
@@ -39,7 +44,7 @@ export default class SendMessageBox extends Component {
         if (message.length < 1) {
             return;
         }
-        document.getElementById("sendButton").click();        
+        document.getElementById("sendButton").click();
     }
 
     render() {
@@ -53,7 +58,6 @@ export default class SendMessageBox extends Component {
                 }
             })
         }
-
 
         return (
             <div className='panel-footer mt-3' id='message-holder'>
