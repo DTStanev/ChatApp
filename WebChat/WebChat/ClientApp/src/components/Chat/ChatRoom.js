@@ -41,6 +41,15 @@ export default class ChatRoom extends Component {
                 })
             });
         });
+        this.scrollToBottom();
+    }
+
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
     }
 
     SpecificClass = (message) => {
@@ -98,7 +107,7 @@ export default class ChatRoom extends Component {
                         .catch(err => console.log('Error while establishing connection :('));
 
                     this.setState({
-                        messages:[]
+                        messages: []
                     })
                 }
             })
@@ -124,9 +133,12 @@ export default class ChatRoom extends Component {
                     <button className={buttonClass} onClick={this.click}>{this.state.status}</button>
                 </div>
                 <div className='form-group border-top'>
-                    {this.state.messages.map(x => <MessageBox key={x.Id} styleName={this.SpecificClass(x)} sender={this.Sender(x)} messageContent={x.content} separator={this.Separator(x)} />)}
+                    {this.state.messages.map(x => <MessageBox key={x.Id} focus styleName={this.SpecificClass(x)} sender={this.Sender(x)} messageContent={x.content} separator={this.Separator(x)} />)}
                     <SendMessageBox SendMessage={this.sendMessage} />
                     <Users />
+                    <div style={{ float: "left", clear: "both" }}
+                        ref={(el) => { this.messagesEnd = el; }}>
+                    </div>
                 </div>
             </div>
         )
