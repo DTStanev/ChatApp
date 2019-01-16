@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom';
 import SendMessageBox from './SendMessageBox'
 import Users from './Users'
 import * as signalR from '@aspnet/signalr';
-import MessageBox from './MessageBox'
 import './ChatRoom.css'
+import MessagesContainer from './MessagesContainer'
 
 export default class ChatRoom extends Component {
 
@@ -13,7 +13,6 @@ export default class ChatRoom extends Component {
 
         this.state = {
             messages: [],
-            currentUser: localStorage.getItem('username'),
             disconnected: false,
             status: 'Connected',
             hubConnection: null
@@ -40,38 +39,8 @@ export default class ChatRoom extends Component {
                     return { messages }
                 })
             });
-        });
-        this.scrollToBottom();
+        });       
     }
-
-    scrollToBottom = () => {
-        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-    }
-
-    componentDidUpdate() {
-        this.scrollToBottom();
-    }
-
-    SpecificClass = (message) => {
-        if (message.sender === this.state.currentUser) {
-            return 'ml-auto bg-info'
-        }
-        return '';
-    };
-
-    Sender = (message) => {
-        if (message.sender === this.state.currentUser) {
-            return ''
-        }
-        return message.sender;
-    };
-
-    Separator = (message) => {
-        if (message.sender === this.state.currentUser) {
-            return ''
-        }
-        return ':';
-    };
 
     renderRedirect = () => {
         let userToken = localStorage.getItem('id_token');
@@ -133,12 +102,9 @@ export default class ChatRoom extends Component {
                     <button className={buttonClass} onClick={this.click}>{this.state.status}</button>
                 </div>
                 <div className='form-group border-top'>
-                    {this.state.messages.map(x => <MessageBox key={x.Id} focus styleName={this.SpecificClass(x)} sender={this.Sender(x)} messageContent={x.content} separator={this.Separator(x)} />)}
+                    <MessagesContainer messages={this.state.messages} />
                     <SendMessageBox SendMessage={this.sendMessage} />
                     <Users />
-                    <div style={{ float: "left", clear: "both" }}
-                        ref={(el) => { this.messagesEnd = el; }}>
-                    </div>
                 </div>
             </div>
         )

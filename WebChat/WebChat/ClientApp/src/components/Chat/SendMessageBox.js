@@ -67,7 +67,7 @@ export default class SendMessageBox extends Component {
             <div className='panel-footer mt-3' id='message-holder'>
                 <form className='form-inline' onSubmit={this.onSubmit}>
                     <label className='sr-only' htmlFor='msg'>Amount (in dollars)</label>
-                    <div className='input-group col-md-12 col-sm-12'>
+                    <div className='input-group col-md-12 col-sm-12 col-lg-12'>
                         <input type='text'
                             onChange={this.handleMessageChange}
                             className='form-control bg-light'
