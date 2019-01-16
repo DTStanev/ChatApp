@@ -17,14 +17,8 @@ namespace Services
         {
         }
 
-        public IEnumerable<MessageInfoViewModel> GetMessages(int messageCount = 0)
+        public IEnumerable<MessageInfoViewModel> GetMessages(int messageCount = 50)
         {
-            if (messageCount == 0)
-            {
-                messageCount = 50;
-            }
-            
-
             var messages = this.db.MessagesHistory
                 .OrderByDescending(x => x.CreatedOn)
                 .Take(messageCount)

@@ -74,14 +74,12 @@ export default class ChatRoom extends Component {
                         .start()
                         .then(() => console.log('Connection started!'))
                         .catch(err => console.log('Error while establishing connection :('));
-
                     this.setState({
                         messages: []
                     })
                 }
             })
         });
-
     }
 
     sendMessage = (message) => {
