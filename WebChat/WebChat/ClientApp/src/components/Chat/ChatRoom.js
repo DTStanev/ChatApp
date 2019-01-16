@@ -39,7 +39,7 @@ export default class ChatRoom extends Component {
                     return { messages }
                 })
             });
-        });       
+        });
     }
 
     renderRedirect = () => {
@@ -56,7 +56,7 @@ export default class ChatRoom extends Component {
             return { messages }
         })
     }
-    //TODO: Make button connect/reconnect after click
+
     click = () => {
         console.log(this.state)
 
@@ -88,6 +88,37 @@ export default class ChatRoom extends Component {
             .catch(err => console.error(err));
     };
 
+    loadHistory = () => {
+        let token = localStorage.getItem('id_token');
+
+        var url = new URL('https://localhost:44385/api/chat/loadhistory');
+        let params = { messagesToSkip: this.state.messages.length };
+        url.search = new URLSearchParams(params);
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            }
+        })
+            .then(response => response.json())
+            .then(responseData => {
+                console.log(responseData);
+                let messages = [];
+                if (responseData.length > 0) {
+                    messages.push.apply(messages, responseData);
+                    console.log(messages);
+                    messages.push.apply(messages, this.state.messages);
+                    this.setState({
+                        messages: messages
+                    })
+                }
+            })
+            .catch(result => console.log(result));
+
+    }
+
 
     render() {
         let buttonClass = this.state.disconnected ? 'btn btn-danger' : 'btn btn-success'
@@ -100,7 +131,7 @@ export default class ChatRoom extends Component {
                     <button className={buttonClass} onClick={this.click}>{this.state.status}</button>
                 </div>
                 <div className='form-group border-top'>
-                    <MessagesContainer messages={this.state.messages} />
+                    <MessagesContainer loadHistory={this.loadHistory} messages={this.state.messages} />
                     <SendMessageBox SendMessage={this.sendMessage} />
                     <Users />
                 </div>

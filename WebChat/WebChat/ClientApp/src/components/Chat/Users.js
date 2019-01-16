@@ -26,8 +26,7 @@ export default class Users extends Component {
             }
         })
             .then(response => response.json())
-            .then(responseData => {
-                console.log(responseData);
+            .then(responseData => {               
                 this.setState({
                     users: responseData
                 })

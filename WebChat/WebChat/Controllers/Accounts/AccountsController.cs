@@ -38,14 +38,7 @@ namespace WebChat.Controllers.Accounts
 
             return users;
         }
-
-        // GET: api/Accounts/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+        
         // POST: api/Accounts
         [AllowAnonymous]
         [HttpPost]
@@ -62,6 +55,7 @@ namespace WebChat.Controllers.Accounts
 
             return "Registration Failed!";
         }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
@@ -80,18 +74,6 @@ namespace WebChat.Controllers.Accounts
             }
 
             return Ok(user);
-        }
-
-        // PUT: api/Accounts/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

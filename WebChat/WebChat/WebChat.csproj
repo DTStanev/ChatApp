@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\src\components\Chat\MessagesContainer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>

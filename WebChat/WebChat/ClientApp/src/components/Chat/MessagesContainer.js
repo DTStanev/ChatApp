@@ -13,7 +13,7 @@ export default class MessagesContainer extends Component {
         }
     }
 
-    componentDidMount = () => {
+    componentDidMount () {
         this.scrollToBottom();
     }
 
@@ -52,7 +52,8 @@ export default class MessagesContainer extends Component {
 
         return (
             <div className='messages-container mb-4'>
-                <div>
+                <div className='mt-2'>
+                    <div className='text-center'><button className='btn btn-light' onClick={this.props.loadHistory} >Load more messages</button></div>
                     {messages.map(x => <MessageBox key={x.Id} focus styleName={this.SpecificClass(x)} sender={this.Sender(x)} messageContent={x.content} separator={this.Separator(x)} />)}
                     <div style={{ float: "left", clear: "both" }}
                         ref={(el) => { this.messagesEnd = el; }}>
