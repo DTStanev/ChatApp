@@ -57,7 +57,7 @@ namespace WebChat.Hubs
 
             foreach (var message in historyMessages)
             {
-                this.Clients.All.SendAsync("NewMessage", message)
+                this.Clients.Caller.SendAsync("NewMessage", message)
                     .GetAwaiter()
                     .GetResult();
             }
