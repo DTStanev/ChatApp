@@ -15,7 +15,8 @@ export default class ChatRoom extends Component {
             messages: [],
             disconnected: false,
             status: 'Connected',
-            hubConnection: null
+            hubConnection: null,
+            scrollToBottom: true
         }
     }
 
@@ -83,6 +84,10 @@ export default class ChatRoom extends Component {
     }
 
     sendMessage = (message) => {
+        this.setState({
+            scrollToBottom: true
+        })
+
         this.state.hubConnection
             .invoke('Send', message)
             .catch(err => console.error(err));
@@ -111,7 +116,8 @@ export default class ChatRoom extends Component {
                     console.log(messages);
                     messages.push.apply(messages, this.state.messages);
                     this.setState({
-                        messages: messages
+                        messages: messages,
+                        scrollToBottom: false
                     })
                 }
             })
@@ -131,7 +137,8 @@ export default class ChatRoom extends Component {
                     <button className={buttonClass} onClick={this.click}>{this.state.status}</button>
                 </div>
                 <div className='form-group border-top'>
-                    <MessagesContainer loadHistory={this.loadHistory} messages={this.state.messages} />
+                    <div className='text-center'><button className='btn btn-light mt-2' onClick={this.loadHistory} >Load more messages</button></div>
+                    <MessagesContainer scrollToBottom={this.state.scrollToBottom} messages={this.state.messages} />
                     <SendMessageBox SendMessage={this.sendMessage} />
                     <Users />
                 </div>
