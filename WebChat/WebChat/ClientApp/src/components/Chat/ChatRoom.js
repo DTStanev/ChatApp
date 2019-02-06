@@ -3,10 +3,12 @@ import { Redirect } from 'react-router-dom';
 import SendMessageBox from './SendMessageBox'
 import Users from './Users'
 import * as signalR from '@aspnet/signalr';
-import './ChatRoom.css'
+import './style/ChatRoom.css'
 import MessagesContainer from './MessagesContainer'
 
 export default class ChatRoom extends Component {
+
+    const disconectedString = 'Discconected';
 
     constructor(props) {
         super(props)
@@ -59,7 +61,16 @@ export default class ChatRoom extends Component {
     }
 
     click = () => {
-        console.log(this.state)
+
+        if (!this.state.disconnected) {
+            this.setState({
+                scrollToBottom: false
+            });
+        } else {
+            this.setState({
+                scrollToBottom: true
+            });
+        }
 
         this.setState(prevState => ({
             disconnected: !prevState.disconnected,
@@ -84,10 +95,6 @@ export default class ChatRoom extends Component {
     }
 
     sendMessage = (message) => {
-        this.setState({
-            scrollToBottom: true
-        })
-
         this.state.hubConnection
             .invoke('Send', message)
             .catch(err => console.error(err));
@@ -127,7 +134,7 @@ export default class ChatRoom extends Component {
 
 
     render() {
-        let buttonClass = this.state.disconnected ? 'btn btn-danger' : 'btn btn-success'
+        let buttonClass = this.state.disconnected ? 'btn btn-danger' : 'btn btn-success';
 
         return (
             <div className='chat-room'>

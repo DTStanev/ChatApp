@@ -1,7 +1,5 @@
 ﻿import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
-import { NavLink } from 'reactstrap';
-import './Users.css'
+import './style/Users.css'
 
 export default class Users extends Component {
 
@@ -20,13 +18,13 @@ export default class Users extends Component {
         })
         fetch('api/Accounts/getusers', {
             method: 'GET',
-            headers: {                
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token,
             }
         })
             .then(response => response.json())
-            .then(responseData => {               
+            .then(responseData => {
                 this.setState({
                     users: responseData
                 })
@@ -35,8 +33,6 @@ export default class Users extends Component {
     };
 
     render() {
-
-       
         return (
             <div className="wrapper">
                 <nav id="sidebar">

@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react'
-import './SendMessageBox.css'
+import './style/SendMessageBox.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTelegramPlane } from '@fortawesome/free-brands-svg-icons'
 

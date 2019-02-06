@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react'
 import MessageBox from './MessageBox'
-import './MessagesContainer.css'
+import './style/MessagesContainer.css'
 
 
 export default class MessagesContainer extends Component {
