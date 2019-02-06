@@ -1,6 +1,7 @@
 ﻿import React from 'react'
 import { Link, Redirect } from 'react-router-dom';
 import $ from 'jquery';
+import * as constants from '../Common/ComponentConstants'
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -47,9 +48,9 @@ export default class Register extends React.Component {
         });
 
         $.ajax({
-            url: '/api/accounts/register',  
-            type: 'post',
-            contentType: 'application/json',
+            url: '/api/accounts/register',
+            type: constants.POST_METTHOD,
+            contentType: constants.APPLICATION_JSON,
             data: data,
             success: function (result) {
                 alert(result);
@@ -68,7 +69,6 @@ export default class Register extends React.Component {
             <div>
                 {this.renderRedirect()}
                 <h1 className='text-center mb-5'>Register</h1>
-
                 <form onSubmit={this.handleSubmit} className='mx-auto w-50'>
                     <div className='form-group'>
                         <label>Username:</label>
@@ -88,13 +88,9 @@ export default class Register extends React.Component {
                     </div>
                     <div className='mt-4 d-flex justify-content-around'>
                         <input type="submit" value="Register" className='btn btn-primary mr-5' />
-
                         <div>If you have an account please <Link to='/login' id='login' className='btn btn-outline-success  ' >Login</Link></div>
-
                     </div>
                 </form>
-
             </div>
         );
     }
-}

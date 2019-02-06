@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom';
+import * as constants from '../Common/ComponentConstants';
 
 export default class Login extends Component {
 
@@ -42,10 +43,10 @@ export default class Login extends Component {
         if (!this.state.user.username || !this.state.user.password) return;
         
         fetch('api/Accounts/login', {
-            method: 'POST',
+            method: constants.POST_METTHOD,
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
+                Accept: constants.APPLICATION_JSON,
+                'Content-Type': constants.APPLICATION_JSON
             },
             body: JSON.stringify({
                 username: this.state.user.username,
@@ -58,22 +59,20 @@ export default class Login extends Component {
                 this.setState({
                     redirect: true
                 })
-                this.saveItem('id_token', responseData.token);
-                this.saveItem('username', responseData.userName);                
+                this.saveItem(constants.TOKEN, responseData.token);
+                this.saveItem(constants.USERNAME, responseData.userName);                
             })
             .catch(result => console.log(result));
     };
 
     renderRedirect = () => {
-        let userToken = localStorage.getItem('id_token');
+        let userToken = localStorage.getItem(constants.TOKEN);
         if (this.state.redirect || userToken) {
             return <Redirect to='/' />
         }
     }
 
     render() {
-       
-
         return (
             <div>
                 {this.renderRedirect()}
@@ -83,16 +82,13 @@ export default class Login extends Component {
                         <div className={'form-group'}>
                             <label htmlFor="username">Username</label>
                             <input type="text" className="form-control" name="username" onChange={this.handleChange} />
-
                         </div>
                         <div className={'form-group'}>
                             <label htmlFor="password">Password</label>
                             <input type="password" className="form-control" name="password" onChange={this.handleChange} />
-
                         </div>
                         <div className="form-group">
                             <button className="btn btn-primary">Login</button>
-
                             <Link to="/register" className="btn btn-link">Register</Link>
                         </div>
                     </form>

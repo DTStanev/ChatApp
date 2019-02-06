@@ -14,6 +14,7 @@ import {
     DropdownItem
 } from 'reactstrap';
 import './NavMenu.css';
+import * as constants from './Common/ComponentConstants';
 
 export class NavMenu extends Component {
     static displayName = NavMenu.name;
@@ -30,7 +31,7 @@ export class NavMenu extends Component {
     }
 
     componentDidMount() {
-        let token = localStorage.getItem('id_token');
+        let token = localStorage.getItem(constants.TOKEN);
 
         if (token) {
             this.setState({
@@ -52,8 +53,8 @@ export class NavMenu extends Component {
     }
 
     logout = () => {
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('username');
+        localStorage.removeItem(constants.TOKEN);
+        localStorage.removeItem(constants.USERNAME);
 
         this.setState({
             isAuth: false
@@ -62,7 +63,7 @@ export class NavMenu extends Component {
 
     render() {
 
-        let userToken = localStorage.getItem('id_token');
+        let userToken = localStorage.getItem(constants.TOKEN);
         let login = userToken ? '' : < NavItem >
             <NavLink tag={Link} className="text-dark ml-4" to="/login">Login</NavLink>
         </NavItem>

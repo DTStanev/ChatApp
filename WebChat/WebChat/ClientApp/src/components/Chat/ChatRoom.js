@@ -5,10 +5,9 @@ import Users from './Users'
 import * as signalR from '@aspnet/signalr';
 import './style/ChatRoom.css'
 import MessagesContainer from './MessagesContainer'
+import * as constants from '../Common/ComponentConstants'
 
 export default class ChatRoom extends Component {
-
-    const disconectedString = 'Discconected';
 
     constructor(props) {
         super(props)
@@ -16,7 +15,7 @@ export default class ChatRoom extends Component {
         this.state = {
             messages: [],
             disconnected: false,
-            status: 'Connected',
+            status: constants.CONNECTED_STRING,
             hubConnection: null,
             scrollToBottom: true
         }
@@ -46,7 +45,7 @@ export default class ChatRoom extends Component {
     }
 
     renderRedirect = () => {
-        let userToken = localStorage.getItem('id_token');
+        let userToken = localStorage.getItem(constants.TOKEN);
         if (!userToken) {
             return <Redirect to='/login' />
         }
@@ -76,7 +75,7 @@ export default class ChatRoom extends Component {
             disconnected: !prevState.disconnected,
         }), () => {
             this.setState({
-                status: this.state.disconnected ? 'Discconected' : 'Connected'
+                status: this.state.disconnected ? constants.DISCCONECTED_STRING : constants.CONNECTED_STRING
             }, () => {
                 if (this.state.disconnected) {
                     this.state.hubConnection.stop()
@@ -101,16 +100,16 @@ export default class ChatRoom extends Component {
     };
 
     loadHistory = () => {
-        let token = localStorage.getItem('id_token');
+        let token = localStorage.getItem(constants.TOKEN);
 
         var url = new URL('https://localhost:44385/api/chat/loadhistory');
         let params = { messagesToSkip: this.state.messages.length };
         url.search = new URLSearchParams(params);
 
         fetch(url, {
-            method: 'GET',
+            method: constants.GET_METHOD,
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': constants.APPLICATION_JSON,
                 'Authorization': 'Bearer ' + token,
             }
         })
@@ -129,9 +128,7 @@ export default class ChatRoom extends Component {
                 }
             })
             .catch(result => console.log(result));
-
     }
-
 
     render() {
         let buttonClass = this.state.disconnected ? 'btn btn-danger' : 'btn btn-success';

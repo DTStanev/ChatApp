@@ -48,9 +48,7 @@ export default class MessagesContainer extends Component {
         return ':';
     };
 
-
     render() {
-
         let messages = this.props.messages || []
 
         return (

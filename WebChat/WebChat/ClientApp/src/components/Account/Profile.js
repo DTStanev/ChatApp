@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
+import * as constants from '../Common/ComponentConstants'
 
 
 export default class Profile extends Component {
@@ -13,12 +14,12 @@ export default class Profile extends Component {
     }
 
     componentDidMount() {
-        let token = localStorage.getItem('id_token');
+        let token = localStorage.getItem(constants.TOKEN);
         this.setState({
             token: token
         })
         fetch('api/Accounts/getpersonaldata', {
-            method: 'GET',
+            method: constants.GET_METHOD,
             headers: {                
                 'Authorization': 'Bearer ' + token,
             }
@@ -35,7 +36,7 @@ export default class Profile extends Component {
     }
 
     renderRedirect = () => {
-        let userToken = localStorage.getItem('id_token');
+        let userToken = localStorage.getItem(constants.TOKEN);
         if (!userToken) {
             return <Redirect to='/login' />
         }
@@ -51,7 +52,6 @@ export default class Profile extends Component {
                         <div className={'form-group'}>
                             <label htmlFor="username">Username</label>
                             <input type="text" className="form-control" name="username" value={this.state.username} disabled />
-
                         </div>
                         <div className={'form-group'}>
                             <label htmlFor="password">Email</label>
