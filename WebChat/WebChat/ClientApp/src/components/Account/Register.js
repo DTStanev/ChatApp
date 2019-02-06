@@ -88,9 +88,11 @@ export default class Register extends React.Component {
                     </div>
                     <div className='mt-4 d-flex justify-content-around'>
                         <input type="submit" value="Register" className='btn btn-primary mr-5' />
+
                         <div>If you have an account please <Link to='/login' id='login' className='btn btn-outline-success  ' >Login</Link></div>
                     </div>
                 </form>
             </div>
         );
     }
+}
